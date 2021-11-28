@@ -67,27 +67,27 @@ const fetchCoordsByIP = function(ip, callback) {
 
 const fetchISSFlyOverTimes = function(coords, callback) {
 
-    const request = require('request');
-    const webAddr = `https://iss-pass.herokuapp.com/json/?lat=43.7306&lon=-79.4217`;
+  const request = require('request');
+  const webAddr = `https://iss-pass.herokuapp.com/json/?lat=${(coords.latitude).toString()}&lon=${(coords.longitude).toString()}`;
   
-    request(webAddr, (error, response, body) => {
+  request(webAddr, (error, response, body) => {
       
-      if (error) {
-        callback(error, undefined);
-        return;
-      }
+    if (error) {
+      callback(error, undefined);
+      return;
+    }
     
-      if (response.statusCode !== 200) {
-        const msg = `Status Code ${response.statusCode} when fetching fetchCoordsByIP. Response: ${body}`;
-        callback(Error(msg), null);
-        return;
-      }
+    if (response.statusCode !== 200) {
+      const msg = `Status Code ${response.statusCode} when fetching fetchCoordsByIP. Response: ${body}`;
+      callback(Error(msg), null);
+      return;
+    }
         
-      const data = JSON.parse(body);
-      callback(null, data.response);
+    const data = JSON.parse(body);
+    callback(null, data.response);
             
-    });
-  };
+  });
+};
 
 
 
@@ -121,7 +121,7 @@ const nextISSTimesForMyLocation = function(callback) {
       fetchISSFlyOverTimes(coords, (error, time) => {
         if (error) {
           console.log("ISS fetching didn't work!");
-          console.log((coords.latitude).toString())
+          console.log((coords.latitude).toString());
           callback(error, null);
           return;
         }
